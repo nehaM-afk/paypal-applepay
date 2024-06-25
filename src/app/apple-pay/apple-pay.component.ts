@@ -1,17 +1,3 @@
-// import { Component } from '@angular/core';
-
-// @Component({
-//   selector: 'app-apple-pay',
-//   standalone: true,
-//   imports: [],
-//   templateUrl: './apple-pay.component.html',
-//   styleUrl: './apple-pay.component.scss'
-// })
-// export class ApplePayComponent {
-
-// }
-
-
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 
 @Component({
@@ -27,10 +13,10 @@ export class ApplePayComponent implements OnInit, AfterViewInit {
   ngOnInit(): void { }
 
   ngAfterViewInit(): void {
-    this.renderPayPalButton();
+    this.renderApplePayButton();
   }
 
-  renderPayPalButton(): void {
+  renderApplePayButton(): void {
     (window as any).paypal.Buttons({
       fundingSource: (window as any).paypal.FUNDING.APPLEPAY,
       style: {
@@ -56,6 +42,6 @@ export class ApplePayComponent implements OnInit, AfterViewInit {
       onError: (err: any) => {
         console.error(err);
       }
-    }).render('#paypal-button-container');
+    }).render('#applepay-button-container');
   }
 }

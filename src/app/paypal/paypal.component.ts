@@ -14,40 +14,28 @@ export class PaypalComponent implements OnInit {
 
   ngOnInit() {
     this.paypalService.loadPayPal().then((paypal) => {
-      if (paypal && paypal.Buttons && paypal.FUNDING) {
-        // const fundingSource = paypal.FUNDING['APPLEPAY'];
-
+      if (paypal && paypal.Buttons) {
         paypal.Buttons({
-          // fundingSource,
-          createOrder: (data, actions) => {
+          createOrder: (data : any, actions : any) => {
             return actions.order.create({
-              intent: 'CAPTURE',
               purchase_units: [{
                 amount: {
-                  currency_code: 'USD',
-                  value: '0.01'
+                  value: '1.00'
                 }
               }]
             });
           },
-          onApprove: (data, actions) => {
-            if (!actions.order) {
-              console.error('actions.order is undefined');
-              return Promise.reject('actions.order is undefined');
-            }
-            return actions.order.capture().then((details) => {
-              if (!details.payer || !details.payer.name) {
-                console.error('details.payer or details.payer.name is undefined');
-                return;
-              }
+          onApprove: (data : any , actions : any) => {
+            return actions.order.capture().then((details: any) => {
               alert('Transaction completed by ' + details.payer.name.given_name);
-            }).catch(error => {
-              console.error('Error capturing order:', error);
             });
+          },
+          onError: (err: any) => {
+            console.error(err);
           }
         }).render('#paypal-button-container');
       } else {
-        console.error('PayPal Buttons or FUNDING not loaded');
+        console.error('PayPal Buttons not loaded');
       }
     }).catch((error) => {
       console.error('PayPal SDK could not be loaded:', error);
