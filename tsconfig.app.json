@@ -6,7 +6,9 @@
     "types": []
   },
   "files": [
-    "src/main.ts"
+    "src/main.ts",
+    "src/typings.d.ts",
+    // "src/apple-pay.d.ts"
   ],
   "include": [
     "src/**/*.d.ts"
