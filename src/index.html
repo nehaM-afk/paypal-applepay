@@ -1,4 +1,4 @@
-<!doctype html>
+<!-- <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -6,13 +6,32 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <!-- <script type="text/javascript" src="https://applepay.cdn-apple.com/jsapi/v1/apple-pay-sdk.js"></script> -->
   
-  <script src="https://www.paypal.com/sdk/js?client-id=AaF3x4iq4bsKKonOBX9fVMarJwTojQJYfN5D4jMXdxw3odvvLOkj-EWqTmzus7miBn35D9XrhhbfRKGA" defer async></script>
+  <script src="https://applepay.cdn-apple.com/jsapi/v1/apple-pay-sdk.js"></script>
+ 
+  <script src="https://www.paypal.com/sdk/js?client-id=AaF3x4iq4bsKKonOBX9fVMarJwTojQJYfN5D4jMXdxw3odvvLOkj-EWqTmzus7miBn35D9XrhhbfRKGA&currency=USD&buyer-country=US&merchant-id=SUB_MERCHANT_ID&components=applepay"></script> 
  
 </head>
 <body>
   <app-root></app-root>
 </body>
+</html> -->
+
+<!-- <script type="text/javascript" src="https://applepay.cdn-apple.com/jsapi/v1/apple-pay-sdk.js"></script> -->
+ <!-- <script src="https://www.paypal.com/sdk/js?client-id=AaF3x4iq4bsKKonOBX9fVMarJwTojQJYfN5D4jMXdxw3odvvLOkj-EWqTmzus7miBn35D9XrhhbfRKGA" defer async></script> -->
+
+
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>AngularPaymentGateway</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <script src="https://www.paypal.com/sdk/js?client-id=AaF3x4iq4bsKKonOBX9fVMarJwTojQJYfN5D4jMXdxw3odvvLOkj-EWqTmzus7miBn35D9XrhhbfRKGA&components=buttons,funding-eligibility&enable-funding=applepay"></script>
+</head>
+<body>
+  <app-root></app-root>
+</body>
 </html>
-`
