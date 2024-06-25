@@ -15,7 +15,7 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/angular-payment-gateway",
             "index": "src/index.html",
@@ -65,10 +65,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "angular-payment-gateway:build:production"
+              "browserTarget": "angular-payment-gateway:build:production"
             },
             "development": {
-              "buildTarget": "angular-payment-gateway:build:development"
+              "browserTarget": "angular-payment-gateway:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +76,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "angular-payment-gateway:build"
+            "browserTarget": "angular-payment-gateway:build"
           }
         },
         "test": {
@@ -102,5 +102,3 @@
     }
   }
 }
-
-
