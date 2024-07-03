@@ -86,6 +86,7 @@ export class AppComponent implements OnInit {
     }).render('#payment-button-container');
 
     // Render Apple Pay button if supported
+    alert('this.isApplePaySupported()' + this.isApplePaySupported())
     if (this.isApplePaySupported()) {
       paypal.Buttons({
         fundingSource: paypal.FUNDING.APPLEPAY,
