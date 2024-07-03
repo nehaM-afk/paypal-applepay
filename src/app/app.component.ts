@@ -28,7 +28,7 @@ import { Component, OnInit, Renderer2 } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './/app.component.html',
+  templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: true,
 })
@@ -42,7 +42,6 @@ export class AppComponent implements OnInit {
 
   loadPayPalScript() {
     const script = this.renderer.createElement('script');
-    // script.src = 'https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&components=buttons,funding-eligibility&enable-funding=applepay';
     script.src = 'https://www.paypal.com/sdk/js?client-id=AaF3x4iq4bsKKonOBX9fVMarJwTojQJYfN5D4jMXdxw3odvvLOkj-EWqTmzus7miBn35D9XrhhbfRKGA&components=buttons,funding-eligibility&enable-funding=applepay';
     script.onload = () => {
       this.renderPayPalButtons();
@@ -58,6 +57,7 @@ export class AppComponent implements OnInit {
       return;
     }
 
+    // Always render the PayPal button
     paypal.Buttons({
       fundingSource: paypal.FUNDING.PAYPAL,
       style: {
@@ -85,8 +85,7 @@ export class AppComponent implements OnInit {
       }
     }).render('#payment-button-container');
 
-    // Check if Apple Pay is supported and render the Apple Pay button
-    alert(this.isApplePaySupported())
+    // Render Apple Pay button if supported
     if (this.isApplePaySupported()) {
       paypal.Buttons({
         fundingSource: paypal.FUNDING.APPLEPAY,
