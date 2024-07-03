@@ -148,7 +148,7 @@ export class AppComponent implements OnInit {
     }
 
     const script = this.renderer.createElement('script');
-    script.src = 'https://www.paypal.com/sdk/js?client-id=AaF3x4iq4bsKKonOBX9fVMarJwTojQJYfN5D4jMXdxw3odvvLOkj-EWqTmzus7miBn35D9XrhhbfRKGA&components=buttons,funding-eligibility&enable-funding=applepay';
+    script.src = 'https://www.paypal.com/sdk/js?client-id=AaF3x4iq4bsKKonOBX9fVMarJwTojQJYfN5D4jMXdxw3odvvLOkj-EWqTmzus7miBn35D9XrhhbfRKGA&components=buttons,applepay,funding-eligibility&enable-funding=applepay';
     script.onload = () => {
       this.loaded = true;
       this.renderPayPalButtons();
