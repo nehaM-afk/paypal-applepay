@@ -237,40 +237,14 @@ export class AppComponent implements OnInit {
     }
 
     // Render Apple Pay button first if supported
-    paypal.Buttons({
-      fundingSource: paypal.FUNDING.APPLEPAY,
-      style: {
-        layout: 'vertical',
-        color: 'black',
-        shape: 'rect',
-        label: 'applepay'
-      },
-      createOrder: (data: any, actions: any) => {
-        return actions.order.create({
-          purchase_units: [{
-            amount: {
-              value: '1.00'
-            }
-          }]
-        });
-      },
-      onApprove: (data: any, actions: any) => {
-        return actions.order.capture().then((details: any) => {
-          alert('Transaction completed by ' + details.payer.name.given_name);
-        });
-      },
-      onError: (err: any) => {
-        console.error('Apple Pay error', err);
-      }
-    }).render('#payment-button-container').then(() => {
-      // Render PayPal and Debit/Credit Card buttons within the same container
+    if (paypal.FUNDING.APPLEPAY) {
       paypal.Buttons({
-        fundingSource: undefined, // This enables all eligible funding sources
+        fundingSource: paypal.FUNDING.APPLEPAY,
         style: {
           layout: 'vertical',
-          color: 'gold',
+          color: 'black',
           shape: 'rect',
-          label: 'paypal'
+          label: 'applepay'
         },
         createOrder: (data: any, actions: any) => {
           return actions.order.create({
@@ -287,9 +261,37 @@ export class AppComponent implements OnInit {
           });
         },
         onError: (err: any) => {
-          console.error('PayPal error', err);
+          console.error('Apple Pay error', err);
         }
       }).render('#payment-button-container');
-    });
+    }
+
+    // Render PayPal and Debit/Credit Card buttons
+    paypal.Buttons({
+      fundingSource: undefined, // This enables all eligible funding sources
+      style: {
+        layout: 'vertical',
+        color: 'gold',
+        shape: 'rect',
+        label: 'paypal'
+      },
+      createOrder: (data: any, actions: any) => {
+        return actions.order.create({
+          purchase_units: [{
+            amount: {
+              value: '1.00'
+            }
+          }]
+        });
+      },
+      onApprove: (data: any, actions: any) => {
+        return actions.order.capture().then((details: any) => {
+          alert('Transaction completed by ' + details.payer.name.given_name);
+        });
+      },
+      onError: (err: any) => {
+        console.error('PayPal error', err);
+      }
+    }).render('#payment-button-container');
   }
 }
