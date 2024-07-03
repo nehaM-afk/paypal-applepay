@@ -202,7 +202,7 @@ export class AppComponent implements OnInit {
           container.prepend(applePayButton);
         }
       }
-    }, 1000);
+    }, 10000);
   }
 }
 
