@@ -192,6 +192,17 @@ export class AppComponent implements OnInit {
         console.error('PayPal error', err);
       }
     }).render('#payment-button-container');
+
+    setTimeout(() => {
+      const container = document.getElementById('payment-button-container');
+      if (container) {
+        const buttons = Array.from(container.children);
+        const applePayButton = buttons.find(button => button.innerHTML.includes('apple pay'));
+        if (applePayButton) {
+          container.prepend(applePayButton);
+        }
+      }
+    }, 1000);
   }
 }
 
