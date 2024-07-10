@@ -199,9 +199,97 @@
 // }
 
 
+
+// ##################### SERVER CONFIG ###################################
+// import { Component, OnInit, Renderer2 } from '@angular/core';
+// import { HttpClient, HttpClientModule } from '@angular/common/http';
+// import { environment } from '../environments/environment';
+// @Component({
+//   selector: 'app-root',
+//   templateUrl: './app.component.html',
+//   styleUrls: ['./app.component.scss'],
+//   standalone: true,
+//   imports: [
+//     HttpClientModule  // Correctly import HttpClientModule
+//   ]
+// })
+// export class AppComponent implements OnInit {
+//   private loaded = false;
+//   private apiUrl = environment.apiUrl;
+
+//   constructor(private renderer: Renderer2, private http: HttpClient) { }
+
+//   ngOnInit() {
+//     this.loadPayPalScript();
+//   }
+
+//   loadPayPalScript() {
+//     if (this.loaded) {
+//       this.renderPayPalButtons();
+//       return;
+//     }
+
+//     this.http.get(`${this.apiUrl}/paypal-config`).subscribe((config: any) => {
+//       const clientId = config['clientId'];
+//       const enableFunding = config['enableFunding'] ? `&enable-funding=${config['enableFunding']}` : '';
+//       const script = this.renderer.createElement('script');
+//       script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&components=buttons,funding-eligibility${enableFunding}`;
+//       script.onload = () => {
+//         this.loaded = true;
+//         this.renderPayPalButtons();
+//       };
+//       script.onerror = () => console.error('PayPal SDK could not be loaded.');
+//       this.renderer.appendChild(document.head, script);
+//     }, error => {
+//       console.error('Error fetching PayPal configuration', error);
+//     });
+//   }
+
+//   renderPayPalButtons() {
+//     const paypal = (window as any).paypal;
+
+//     if (!paypal) {
+//       console.error('PayPal SDK not loaded');
+//       return;
+//     }
+
+//     // Render PayPal and Debit/Credit Card buttons within the same container
+//     paypal.Buttons({
+//       fundingSource: undefined, // This enables all eligible funding sources
+//       style: {
+//         layout: 'vertical',
+//         color: 'gold',
+//         shape: 'rect',
+//         label: 'paypal'
+//       },
+//       createOrder: (data: any, actions: any) => {
+//         return actions.order.create({
+//           purchase_units: [{
+//             amount: {
+//               value: '1.00'
+//             }
+//           }]
+//         });
+//       },
+//       onApprove: (data: any, actions: any) => {
+//         return actions.order.capture().then((details: any) => {
+//           alert('Transaction completed by ' + details.payer.name.given_name);
+//         });
+//       },
+//       onError: (err: any) => {
+//         console.error('PayPal error', err);
+//       }
+//     }).render('#payment-button-container');
+//   }
+// }
+
+// ##################### SERVER CONFIG ###################################
+
+
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { environment } from '../environments/environment';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -223,7 +311,7 @@ export class AppComponent implements OnInit {
 
   loadPayPalScript() {
     if (this.loaded) {
-      this.renderPayPalButtons();
+      this.renderButtons();
       return;
     }
 
@@ -234,13 +322,33 @@ export class AppComponent implements OnInit {
       script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&components=buttons,funding-eligibility${enableFunding}`;
       script.onload = () => {
         this.loaded = true;
-        this.renderPayPalButtons();
+        this.renderButtons();
       };
       script.onerror = () => console.error('PayPal SDK could not be loaded.');
       this.renderer.appendChild(document.head, script);
     }, error => {
       console.error('Error fetching PayPal configuration', error);
     });
+  }
+
+  renderButtons() {
+    this.renderApplePayButton();
+    this.renderPayPalButtons();
+  }
+
+  renderApplePayButton() {
+    // Code to render Apple Pay button inside the payment-button-container
+    const applePayButton = this.renderer.createElement('button');
+    applePayButton.innerHTML = 'Apple Pay';
+    this.renderer.appendChild(document.getElementById('payment-button-container'), applePayButton);
+
+    // Replace this with your actual Apple Pay button initialization code
+    this.initApplePayButton();
+  }
+
+  initApplePayButton() {
+    // Placeholder for actual Apple Pay button rendering code
+    console.log('Apple Pay button initialized');
   }
 
   renderPayPalButtons() {
@@ -251,7 +359,6 @@ export class AppComponent implements OnInit {
       return;
     }
 
-    // Render PayPal and Debit/Credit Card buttons within the same container
     paypal.Buttons({
       fundingSource: undefined, // This enables all eligible funding sources
       style: {
