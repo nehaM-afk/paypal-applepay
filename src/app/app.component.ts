@@ -287,13 +287,17 @@
 
 
 import { Component, OnInit, Renderer2 } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  imports: [
+        HttpClientModule  // Correctly import HttpClientModule
+      ],
+      standalone: true
 })
 export class AppComponent implements OnInit {
   private loaded = false;
