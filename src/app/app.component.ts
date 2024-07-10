@@ -253,32 +253,32 @@ export class AppComponent implements OnInit {
       return;
     }
 
-    paypal.Buttons({
-      fundingSource: paypal.FUNDING.APPLEPAY,
-      style: {
-        layout: 'vertical',
-        color: 'black',
-        shape: 'rect',
-        label: 'applepay'
-      },
-      createOrder: (data: any, actions: any) => {
-        return actions.order.create({
-          purchase_units: [{
-            amount: {
-              value: '1.00'
-            }
-          }]
-        });
-      },
-      onApprove: (data: any, actions: any) => {
-        return actions.order.capture().then((details: any) => {
-          alert('Transaction completed by ' + details.payer.name.given_name);
-        });
-      },
-      onError: (err: any) => {
-        console.error('Apple Pay error', err);
-      }
-    }).render('#payment-button-container');
+    // paypal.Buttons({
+    //   fundingSource: paypal.FUNDING.APPLEPAY,
+    //   style: {
+    //     layout: 'vertical',
+    //     color: 'black',
+    //     shape: 'rect',
+    //     label: 'applepay'
+    //   },
+    //   createOrder: (data: any, actions: any) => {
+    //     return actions.order.create({
+    //       purchase_units: [{
+    //         amount: {
+    //           value: '1.00'
+    //         }
+    //       }]
+    //     });
+    //   },
+    //   onApprove: (data: any, actions: any) => {
+    //     return actions.order.capture().then((details: any) => {
+    //       alert('Transaction completed by ' + details.payer.name.given_name);
+    //     });
+    //   },
+    //   onError: (err: any) => {
+    //     console.error('Apple Pay error', err);
+    //   }
+    // }).render('#payment-button-container');
 
     // Render PayPal and Debit/Credit Card buttons within the same container
     paypal.Buttons({
