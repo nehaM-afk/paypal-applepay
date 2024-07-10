@@ -287,17 +287,13 @@
 
 
 import { Component, OnInit, Renderer2 } from '@angular/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  standalone: true,
-  imports: [
-    HttpClientModule  // Correctly import HttpClientModule
-  ]
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
   private loaded = false;
@@ -311,7 +307,7 @@ export class AppComponent implements OnInit {
 
   loadPayPalScript() {
     if (this.loaded) {
-      this.renderButtons();
+      this.renderPayPalButtons();
       return;
     }
 
@@ -322,33 +318,13 @@ export class AppComponent implements OnInit {
       script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}&components=buttons,funding-eligibility${enableFunding}`;
       script.onload = () => {
         this.loaded = true;
-        this.renderButtons();
+        this.renderPayPalButtons();
       };
       script.onerror = () => console.error('PayPal SDK could not be loaded.');
       this.renderer.appendChild(document.head, script);
     }, error => {
       console.error('Error fetching PayPal configuration', error);
     });
-  }
-
-  renderButtons() {
-    this.renderApplePayButton();
-    this.renderPayPalButtons();
-  }
-
-  renderApplePayButton() {
-    // Code to render Apple Pay button inside the payment-button-container
-    const applePayButton = this.renderer.createElement('button');
-    applePayButton.innerHTML = 'Apple Pay';
-    this.renderer.appendChild(document.getElementById('payment-button-container'), applePayButton);
-
-    // Replace this with your actual Apple Pay button initialization code
-    this.initApplePayButton();
-  }
-
-  initApplePayButton() {
-    // Placeholder for actual Apple Pay button rendering code
-    console.log('Apple Pay button initialized');
   }
 
   renderPayPalButtons() {
@@ -360,7 +336,34 @@ export class AppComponent implements OnInit {
     }
 
     paypal.Buttons({
-      fundingSource: undefined, // This enables all eligible funding sources
+      fundingSource: paypal.FUNDING.APPLEPAY,
+      style: {
+        layout: 'vertical',
+        color: 'black',
+        shape: 'rect',
+        label: 'applepay'
+      },
+      createOrder: (data: any, actions: any) => {
+        return actions.order.create({
+          purchase_units: [{
+            amount: {
+              value: '1.00'
+            }
+          }]
+        });
+      },
+      onApprove: (data: any, actions: any) => {
+        return actions.order.capture().then((details: any) => {
+          alert('Transaction completed by ' + details.payer.name.given_name);
+        });
+      },
+      onError: (err: any) => {
+        console.error('Apple Pay error', err);
+      }
+    }).render('#payment-button-container');
+
+    paypal.Buttons({
+      fundingSource: paypal.FUNDING.PAYPAL,
       style: {
         layout: 'vertical',
         color: 'gold',
@@ -387,3 +390,4 @@ export class AppComponent implements OnInit {
     }).render('#payment-button-container');
   }
 }
+
